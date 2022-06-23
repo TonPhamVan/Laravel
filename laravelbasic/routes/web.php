@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\CategorisController;
+use App\Http\Controllers\Admin\ProductsController;
+use Whoops\Run;
+use App\Http\Controllers\BladeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,20 +20,58 @@ use App\Http\Controllers\homeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/blade',[BladeController::class,'index']);
+
+//client Route
+Route::prefix('categories')->group(function(){
+
+    //danh sách chuyên mục
+    Route::get('/',[CategorisController::class,'index'])->name('categories.list');
+
+    //lấy chi tiết 1 chuyên mục
+    Route::get('edit/{id}',[CategorisController::class,'getCategory'])->name('categories.edit');
+
+    //xử lý update chuyên mục
+    Route::post('edit/{id}',[CategorisController::class,'updateCategory']);
+
+    //hiển thị form add dữ liệu
+    Route::get('/add',[CategorisController::class,'addCategory'])->name('categories.add');
+
+    //xử lí add dữ liệu
+    Route::post('/add',[CategorisController::class,'handleAddCategory']);
+
+    //xóa chuyên mục
+    Route::delete('/delete/{id}',[CategorisController::class,'deleteCategory'])->name('categories.delete');
+
+    // hiển thị form upload
+    Route::get('/upload',[CategorisController::class,'getFile']);
+
+    // xử lí file
+    Route::post('/upload',[CategorisController::class,'handleFile'])->name('categories.upload');
 });
 
-Route::get('/unicode',function(){
-    // $user = new User();
-    // $allUser = $user::all();
-    // dd($allUser);
-    return view('home');
+// admin route middleware
+Route::middleware('auth.admin')->prefix('admin')->group(function(){
+    Route::resource('product', ProductsController::class);
 });
 
-Route:: get('/san-pham',function(){
-    return view('product');
-});
+Route::get('/',[homeController::class,'index']);
+
+Route::get('sp/{id}',[homeController::class,'getProductDetail']);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route::get('/unicode',function(){
+//     // $user = new User();
+//     // $allUser = $user::all();
+//     // dd($allUser);
+//     return view('home');
+// });
+
+// Route:: get('/san-pham',function(){
+//     return view('product');
+// });
 
 // Route::get('/form',function() {
 //     return view('form');
@@ -64,45 +107,45 @@ Route:: get('/san-pham',function(){
 // Route::view('show-form','form');
 
 // gọi controller
-Route::get('/', 'App\Http\Controllers\homeController@index')->name('home');
+// Route::get('/', 'App\Http\Controllers\homeController@index')->name('home');
 
-Route::get('/game', 'homeController@getGames')->name('game');
+// Route::get('/game', 'homeController@getGames')->name('game');
 
-Route::get('/tin-tuc/{id}', [homeController::class,'getNews'])->name('news');
+// Route::get('/tin-tuc/{id}', [homeController::class,'getNews'])->name('news');
 
 
-// nhóm
-Route::prefix('admin')->middleware('checkproduct')->group(function(){
-    Route::get('/',function() {
-        return 'admin';
-    });
-    Route::get('/form',function() {
-        return view('form');
-    // đặt tên cho route
-    })->name('admin.form');
-    Route::get('/unicode',function() {
-        return 'phương thức get của unicode';
-    });
+// // nhóm
+// Route::prefix('admin')->middleware('checkproduct')->group(function(){
+//     Route::get('/',function() {
+//         return 'admin';
+//     });
+//     Route::get('/form',function() {
+//         return view('form');
+//     // đặt tên cho route
+//     })->name('admin.form');
+//     Route::get('/unicode',function() {
+//         return 'phương thức get của unicode';
+//     });
 
-    //nhóm của nhóm
-    Route::prefix('product')->group(function(){
-        Route::get('/',function() {
-            return 'danh sach';
-        });
-        Route::get('/add',function() {
-            return 'add';
-        })->name('admin.product.add');
-        Route::get('/update/{str?}-{id?}',function($str=null,$id=null) {
-            $content = 'update với tham số:';
-            $content .= 'str '. $str .= ' id:' . $id;
-            return $content;
-        //validate
-        })->where(
-            [
-                'str'=>'.+',
-                'id'=>'[0-9]+'
-            ]
-        )->name('admin.product.update');
+//     //nhóm của nhóm
+//     Route::prefix('product')->group(function(){
+//         Route::get('/',function() {
+//             return 'danh sach';
+//         });
+//         Route::get('/add',function() {
+//             return 'add';
+//         })->name('admin.product.add');
+//         Route::get('/update/{str?}-{id?}',function($str=null,$id=null) {
+//             $content = 'update với tham số:';
+//             $content .= 'str '. $str .= ' id:' . $id;
+//             return $content;
+//         //validate
+//         })->where(
+//             [
+//                 'str'=>'.+',
+//                 'id'=>'[0-9]+'
+//             ]
+//         )->name('admin.product.update');
 
-    });
-});
+//     });
+// });

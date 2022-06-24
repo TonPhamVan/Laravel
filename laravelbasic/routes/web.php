@@ -8,6 +8,10 @@ use App\Http\Controllers\CategorisController;
 use App\Http\Controllers\Admin\ProductsController;
 use Whoops\Run;
 use App\Http\Controllers\BladeController;
+use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\ProductController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,44 +24,57 @@ use App\Http\Controllers\BladeController;
 |
 */
 
-Route::get('/blade',[BladeController::class,'index']);
+Route::get('/',[ClientsController::class,'index'])->name('home');
 
-//client Route
-Route::prefix('categories')->group(function(){
+Route::get('/san-pham',[ProductController::class,'index'])->name('san-pham');
 
-    //danh sách chuyên mục
-    Route::get('/',[CategorisController::class,'index'])->name('categories.list');
+Route::get('/them',[ClientsController::class,'getAdd']);
 
-    //lấy chi tiết 1 chuyên mục
-    Route::get('edit/{id}',[CategorisController::class,'getCategory'])->name('categories.edit');
+// Route::post('/them',[ClientsController::class,'postAdd']);
 
-    //xử lý update chuyên mục
-    Route::post('edit/{id}',[CategorisController::class,'updateCategory']);
+Route::put('/them',[ClientsController::class,'putAdd']);
 
-    //hiển thị form add dữ liệu
-    Route::get('/add',[CategorisController::class,'addCategory'])->name('categories.add');
 
-    //xử lí add dữ liệu
-    Route::post('/add',[CategorisController::class,'handleAddCategory']);
 
-    //xóa chuyên mục
-    Route::delete('/delete/{id}',[CategorisController::class,'deleteCategory'])->name('categories.delete');
 
-    // hiển thị form upload
-    Route::get('/upload',[CategorisController::class,'getFile']);
+// Route::get('/blade',[BladeController::class,'index']);
 
-    // xử lí file
-    Route::post('/upload',[CategorisController::class,'handleFile'])->name('categories.upload');
-});
+// //client Route
+// Route::prefix('categories')->group(function(){
 
-// admin route middleware
-Route::middleware('auth.admin')->prefix('admin')->group(function(){
-    Route::resource('product', ProductsController::class);
-});
+//     //danh sách chuyên mục
+//     Route::get('/',[CategorisController::class,'index'])->name('categories.list');
 
-Route::get('/',[homeController::class,'index']);
+//     //lấy chi tiết 1 chuyên mục
+//     Route::get('edit/{id}',[CategorisController::class,'getCategory'])->name('categories.edit');
 
-Route::get('sp/{id}',[homeController::class,'getProductDetail']);
+//     //xử lý update chuyên mục
+//     Route::post('edit/{id}',[CategorisController::class,'updateCategory']);
+
+//     //hiển thị form add dữ liệu
+//     Route::get('/add',[CategorisController::class,'addCategory'])->name('categories.add');
+
+//     //xử lí add dữ liệu
+//     Route::post('/add',[CategorisController::class,'handleAddCategory']);
+
+//     //xóa chuyên mục
+//     Route::delete('/delete/{id}',[CategorisController::class,'deleteCategory'])->name('categories.delete');
+
+//     // hiển thị form upload
+//     Route::get('/upload',[CategorisController::class,'getFile']);
+
+//     // xử lí file
+//     Route::post('/upload',[CategorisController::class,'handleFile'])->name('categories.upload');
+// });
+
+// // admin route middleware
+// Route::middleware('auth.admin')->prefix('admin')->group(function(){
+//     Route::resource('product', ProductsController::class);
+// });
+
+// Route::get('/',[homeController::class,'index']);
+
+// Route::get('sp/{id}',[homeController::class,'getProductDetail']);
 // Route::get('/', function () {
 //     return view('welcome');
 // });

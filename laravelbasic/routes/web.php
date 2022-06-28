@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\CategorisController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -30,12 +31,22 @@ Route::get('/san-pham',[ProductController::class,'index'])->name('san-pham');
 
 Route::get('/them',[ClientsController::class,'getAdd']);
 
-// Route::post('/them',[ClientsController::class,'postAdd']);
+Route::post('/them',[ClientsController::class,'postAdd'])->name('post-add');
 
-Route::put('/them',[ClientsController::class,'putAdd']);
+// Route::put('/them',[ClientsController::class,'putAdd']);
 
+Route::get('demo-response',function () {
+    // return view('clients.demo_test');
+    return $response = response()->view('clients.demo_test',['title'=>'học http'],201)
+    ->header('Content-Type','application/json')
+    ->header('Api-Key','123456');
+});
 
+Route::get('demo-response-2',function(Request $request) {
+    return $request->cookie('unicode');
+});
 
+Route::get('download-image',[ClientsController::class,'downloadImage'])->name('download-image');
 
 // Route::get('/blade',[BladeController::class,'index']);
 

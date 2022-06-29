@@ -10,12 +10,20 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Rules\Uppercase;
 
+use Illuminate\Support\Facades\DB;
+
 class ClientsController extends Controller
 {
     //
     public $data = [];
     public function index(){
         $this->data['title'] = 'dao tao lap trinh';
+
+        // $users = DB::select('select * from users where id >?',[1]);
+        // $users = DB::select('select * from users where email=:email',['email'=>'tung@gmail.com']);
+
+        // dd($users);
+
         return view('clients.homeClient',$this->data);
     }
 

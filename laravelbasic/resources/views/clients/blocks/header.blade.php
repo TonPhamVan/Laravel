@@ -10,20 +10,24 @@
                       <a class="nav-link active" aria-current="page" href="{{route('home')}}">Trang chu</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="">Gioi thieu</a>
+                        <a class="nav-link" href="{{route('users.index')}}">User</a>
+                      </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Gioi thieu</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{{route('san-pham')}}">San pham</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link">Dich vu</a>
+                      <a class="nav-link" href="#">Dich vu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">tin tuc</a>
+                        <a class="nav-link" href="#">tin tuc</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">lien he</a>
+                        <a class="nav-link" href="#">lien he</a>
                     </li>
+
                   </ul>
             </div>
         </div>

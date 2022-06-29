@@ -11,6 +11,7 @@ use Whoops\Run;
 use App\Http\Controllers\BladeController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -24,6 +25,26 @@ use App\Http\Controllers\ProductController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::prefix('users')->name('users.')->group(function(){
+    Route::get('/',[UserController::class,'index'])->name('index');
+
+    Route::get('/add',[UserController::class,'add'])->name('add');
+
+    Route::post('/add',[UserController::class,'postAdd'])->name('postAdd');
+
+    Route::get('/edit/{id}',[UserController::class,'getEdit'])->name('getEdit');
+
+    Route::post('/update',[UserController::class,'postEdit'])->name('postEdit');
+
+    Route::get('/delete/{id}',[UserController::class,'delete'])->name('delete');
+
+
+
+
+});
+
+
 
 Route::get('/',[ClientsController::class,'index'])->name('home');
 
@@ -47,6 +68,9 @@ Route::get('demo-response-2',function(Request $request) {
 });
 
 Route::get('download-image',[ClientsController::class,'downloadImage'])->name('download-image');
+
+
+
 
 // Route::get('/blade',[BladeController::class,'index']);
 

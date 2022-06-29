@@ -16,6 +16,9 @@ class UserController extends Controller
     public function index(Request $request) {
         $title = 'Danh sách người dùng';
 
+        // dd($this->users->learnQueryBuilder());
+
+
         if(!empty($search = $request->search)){
             $userList = $this->users->searchUser($search);
 

@@ -40,8 +40,6 @@ Route::prefix('users')->name('users.')->group(function(){
     Route::get('/delete/{id}',[UserController::class,'delete'])->name('delete');
 
 
-
-
 });
 
 

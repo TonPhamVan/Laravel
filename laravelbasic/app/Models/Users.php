@@ -14,29 +14,61 @@ class Users extends Model
     protected $table = 'users';
 
     public function getAllUsers() {
-        return $users = DB::select('select * from users order by creat_at desc');
+        // return $users = DB::select('select * from users order by creat_at desc');
+        // return DB::table($this->table)
+        // ->select('*')
+        // ->orderBy('creat_at','desc')
+        // ->get();
+        return Users::all();
     }
 
     public function searchUser($search){
-        return DB::select('SELECT * FROM '.$this->table.' WHERE fullname LIKE "%'.$search.'%"');
+        // return DB::select('SELECT * FROM '.$this->table.' WHERE fullname LIKE "%'.$search.'%"');
+        return DB::table($this->table)
+        ->select('*')
+        ->where('fullname','like','%'.$search.'%')
+        ->get();
     }
 
     public function addUser($data){
-        DB::insert('insert into users (fullname,email,creat_at) values (?,?,?)',$data);
+        // DB::insert('insert into users (fullname,email,creat_at) values (?,?,?)',$data);
+        return DB::table($this->table)
+        ->insert([
+            'fullname'=> $data[0],
+            'email'=>$data[1],
+            'creat_at'=>$data[2]
+        ]);
     }
     public function getDetail($id) {
-        return DB::select('select * from '.$this->table.' where id = ?',[$id]);
+        //return DB::select('select * from '.$this->table.' where id = ?',[$id]);
+        return DB::table($this->table)
+        ->where('id',$id)
+        ->get();
+        // return Users::find($id);
+
     }
     public function updateUser($data,$id) {
 
         $data[] = $id;
 
-        return DB::update('UPDATE '.$this->table.' SET fullname=?, email=?, update_at=? WHERE id = ?',$data);
+        // return DB::update('UPDATE '.$this->table.' SET fullname=?, email=?, update_at=? WHERE id = ?',$data);
+        return DB::table($this->table)
+        ->where('id',$id)
+        ->update([
+            'fullname'=>$data[0],
+            'email'=>$data[1],
+            'update_at'=>$data[2]
+        ]);
     }
 
     public function deleteUser($id) {
-        return DB::delete('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
+        // return DB::delete('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
+        return DB::table($this->table)
+        ->where('id',$id)
+        ->delete();
     }
+
+
 
     //thực thi câu lệnh sql trả về trạng thái(true/false)
     public function statementUser($sql) {
@@ -141,6 +173,8 @@ class Users extends Model
             ['email'=>'ton@gmail.com','fullname'=>'tonnnnn'],
             ['email'=>'ton444@gmail.com','fullname'=>'tonnn8n']
         ]);
+        //lấy id sau khi insert
+        $id = DB::getPdo()->lastInsertId();
 
 
         //debug câu lệnh sql

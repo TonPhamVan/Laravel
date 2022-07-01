@@ -12,6 +12,7 @@ use App\Http\Controllers\BladeController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SendMailController;
 
 
 
@@ -25,6 +26,11 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('send-mail', [SendMailController::class,'sendMail']);
+
+Route::get('config-mail',[SendMailController::class,'configMail']);
+Route::post('test-mail',[SendMailController::class,'testMail']);
+
 
 Route::prefix('users')->name('users.')->group(function(){
     Route::get('/',[UserController::class,'index'])->name('index');
@@ -41,8 +47,9 @@ Route::prefix('users')->name('users.')->group(function(){
 
 
 });
-
-
+Route::get('/info',function(){
+    return view('info');
+});
 
 Route::get('/',[ClientsController::class,'index'])->name('home');
 

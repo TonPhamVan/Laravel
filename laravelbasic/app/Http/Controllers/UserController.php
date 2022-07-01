@@ -65,10 +65,11 @@ class UserController extends Controller
 
         if (!empty($id)){
             $userDetail = $this->users->getDetail($id);
+            // $userDetail = null;
             if (!empty($userDetail[0])){
                 $request->session()->put('id',$id);
                 $userDetail =$userDetail[0];
-            } else {
+            } else{
                 return redirect()->route('users.index')->with('msg','Người dùng không tồn tại');
             }
         }else {
